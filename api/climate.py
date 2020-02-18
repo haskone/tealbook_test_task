@@ -68,6 +68,7 @@ class Climates(Resource):
     @api.doc(params={
         'sort': 'Sort order by date, asc | desc',
         'filter_station': 'filter by station name',
+        'mean_higher_than': 'return everything with mean temperature higher than specified',
         'page': f'A page number, each page has {PAGE_SIZE} items',
         'total_pages': 'A total number of pages'
     })
@@ -75,6 +76,7 @@ class Climates(Resource):
     def get(self):
         sort_date = request.args.get('sort')
         filter_station = request.args.get('filter_station')
+        mean_higher_than = request.args.get('mean_higher_than')
         try:
             page = int(request.args.get('page', 1))
         except:
@@ -97,6 +99,14 @@ class Climates(Resource):
             base_query = base_query.filter(
                 ClimateEntity.station_name.contains(filter_station)
             )
+        if mean_higher_than:
+            try:
+                param_temp = float(mean_higher_than)
+                base_query = base_query.filter(
+                    ClimateEntity.mean_temp > param_temp
+                )
+            except:
+                pass
 
         climates = base_query.paginate(page, PAGE_SIZE, error_out=False)
         total = climates.total

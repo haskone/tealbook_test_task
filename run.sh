@@ -1,1 +1,1 @@
-gunicorn -b localhost:8880 -w 4 app:app
+gunicorn -b localhost:5000 -w 4 app:app

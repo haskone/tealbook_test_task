@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 
-ENDPOINT_URL = 'http://localhost:8880/api/climate/'
+ENDPOINT_URL = 'http://localhost:5000/api/climate/'
 DATA_FILE = 'data/climate.csv'
 
 def send_record(data):
